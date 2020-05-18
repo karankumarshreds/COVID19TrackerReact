@@ -3,37 +3,64 @@ import './App.css';
 import Cards          from './Components/Cards/Cards';
 import Chart          from './Components/Chart/Chart';
 import CountryPick    from './Components/CountryPick/CountryPick';
-import {fetchData}    from './api'
+import {fetchData, fetchDailyData}    from './api'
 
 class App extends React.Component {
 
   state = {
-    data : {}
+    data : {},
+    country: ''
   }
 
   async componentDidMount() {
-    const response = await fetchData();
+    const response = await fetchData(); 
     this.setState({ data:response });
+  }
+
+  handleState = async (data) => {
+    //using this to get selected country by the user
+    //also to make use of this to get further details of the country
+
+    this.setState(state => {
+      return {
+        ...state.data, country: data
+      }
+    })
+    //getting further details on country
+    const response = await fetchData(data);
+    //this will overwrite the global data to only one country
+    //state.data is being passed to cards, hence they will be updated
+    //as well as soon as the user chooses a country
+    this.setState(state => {
+      return {
+        ...state, data: response
+      }
+    });
+  
   }
 
   render() {
 
-    const { data } = this.state;
-    const imgUrl = "http://www.pngmart.com/files/12/COVID-19-Virus-PNG-Transparent-Image.png"
-    console.log(data);
-    return (
+    const { data, country } = this.state;
+    const imgUrl = "http://www.pngmart.com/files/12/COVID-19-Virus-PNG-Transparent-Image.png";
 
+    return (
       <div className="App">
         <body className="App-header">
-          <img src={imgUrl} className="App-logo" alt="logo" />
+          <a href="/" ><img src={imgUrl} className="App-logo" alt="logo" /></a>
           <h1>COVID 19</h1>
           <Cards data={data}/>
-          <CountryPick data={data}/>
-          <Chart data={data}s/>
+          <CountryPick 
+          countryChange={this.handleState}
+          /> 
+          <h3>COVID-19 Global Data </h3>
+          <Chart 
+          data={data}
+          country={country}
+          />
         </body>
       </div>
     );
-
   }
 }
 

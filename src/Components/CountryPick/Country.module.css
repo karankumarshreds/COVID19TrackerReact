@@ -1,0 +1,12 @@
+.nativeSelect {
+    background-color: rgb(81, 226, 245) !important;
+    padding-left: 1.5rem !important;
+    padding-right: 1rem !important;
+    cursor:  pointer !important;
+    border-radius: 1rem !important;
+    user-select: none;
+    box-shadow: 7px 10px 12px -5px rgba(0,0,0, 0.5) !important;
+    margin-bottom: 70px;
+}
+
+
