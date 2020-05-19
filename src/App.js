@@ -3,6 +3,7 @@ import './App.css';
 import Cards          from './Components/Cards/Cards';
 import Chart          from './Components/Chart/Chart';
 import CountryPick    from './Components/CountryPick/CountryPick';
+import Footer         from './Components/Footer/Footer'
 import {fetchData, fetchDailyData}    from './api'
 
 class App extends React.Component {
@@ -43,6 +44,12 @@ class App extends React.Component {
 
     const { data, country } = this.state;
     const imgUrl = "http://www.pngmart.com/files/12/COVID-19-Virus-PNG-Transparent-Image.png";
+    const heading1 = (
+      <h3>COVID-19 Global Data </h3>
+    );
+    const heading2 = (
+      <h3> {country}'s live analysis </h3>
+    )
 
     return (
       <div className="App">
@@ -53,11 +60,12 @@ class App extends React.Component {
           <CountryPick 
           countryChange={this.handleState}
           /> 
-          <h3>COVID-19 Global Data </h3>
+          { country ?  heading2 : heading1 }      
           <Chart 
           data={data}
           country={country}
           />
+          <Footer />
         </body>
       </div>
     );
